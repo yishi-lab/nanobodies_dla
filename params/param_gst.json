@@ -1,0 +1,11 @@
+{
+    "batch_size": 64,
+    "lr": 0.001,
+    "epoch": 10000,
+    "filt": 20,
+    "ks": 7,
+    "dp_out": 0.4,
+    "per": 0.7,
+    "stride": 1,
+    "rel_l1": 0.05
+}

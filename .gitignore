@@ -1,0 +1,9 @@
+data/*
+!data/gst_data/all_seq.csv
+!data/hsa_data/34K.csv
+*/__pycache__/*
+*.pyc
+*.DS_STORE
+*.DS_Store
+.vscode
+__pycache__
