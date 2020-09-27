@@ -1,3 +1,17 @@
+"""
+ Copyright 2020 - by Lirane Bitton (liranebitton@gmail.com)
+     All rights reserved
+
+     Permission is granted for anyone to copy, use, or modify this
+     software for any uncommercial purposes, provided this copyright
+     notice is retained, and note is made of any changes that have
+     been made. This software is distributed without any warranty,
+     express or implied. In no event shall the author or contributors be
+     liable for any damage arising out of the use of this software.
+
+     The publication of research using this software, modified or not, must include
+     appropriate citations to:
+"""
 from tensorflow.keras.utils import to_categorical
 from config import le, aa, le_align, aa_align
 import math
@@ -5,6 +19,8 @@ import random
 import numpy as np
 import tensorflow as tf
 from tensorflow.keras import backend as K
+
+
 def to_dataset(dict_to_parse, data, labels, max_seq_size):
     for key, value in dict_to_parse.items():
         for i, seq in enumerate(value['sequence']):
@@ -21,6 +37,7 @@ def to_one_hot_prot(seq, max_seq_size=140):
     to_add[:encoded.shape[0], :encoded.shape[1]] = encoded
     return to_add
 
+
 def to_one_hot_prot_align(seq, max_seq_size=140):
     integer_encoded = le_align.transform(list(seq))
     integer_encoded = integer_encoded.reshape(len(integer_encoded), 1)
@@ -29,7 +46,8 @@ def to_one_hot_prot_align(seq, max_seq_size=140):
     to_add[:encoded.shape[0], :encoded.shape[1]] = encoded
     return to_add
 
-def plot_history(history,_loss_fn=None, _acc_fn=None):
+
+def plot_history(history, _loss_fn=None, _acc_fn=None):
     history_dict = history.history
     history_dict.keys()
 
@@ -100,12 +118,13 @@ def load_data(path_to_train, path_to_test):
 def predict(model_path, data_path):
     npzfile_test = np.load(data_path)
     _test_data = npzfile_test['data']
-    _test_labels =  npzfile_test['labels']
+    _test_labels = npzfile_test['labels']
 
     _classifier = tf.keras.models.load_model(model_path)
 
     _layer_outputs = [layer.output for layer in _classifier.layers[:]]
-    activation_model = tf.keras.models.Model(inputs=_classifier.input, outputs=_layer_outputs)
+    activation_model = tf.keras.models.Model(
+        inputs=_classifier.input, outputs=_layer_outputs)
 
     _activations = activation_model.predict(_test_data)
     return _test_data, _test_labels, _classifier, _layer_outputs, _activations
